@@ -29,17 +29,26 @@ JSON files are used for settings and storage of each mp4 file. The app only work
 FFMPEG binaries are included to probe files for metadata. I personally use PlayOn to record movies, which provides specific metadata that is used to display the poster, title, and release data. Without this specific metadata, it won't display correctly.
 
 The metadata it looks for:
+
 tags.Thumbnailurl
+
 tags.title
+
 tags.Date
 
 I use express to host a companion server for the API with the routes noted below. From the settings page, you can view the current IP address easily to access it on another machine.
 
 ## Roadmap
 The app currently has limited functionality. I would like to
--Build the app the run on MacOS and Windows
--Create a companion web app, firestick app, or roku app that consumes the REST API and streams movies.
--Add ability to save playback timemarks for resuming video if paused.
--Add metadata from TMDB
--Allow customizing the metadata, and the poster for each video file
--Add fallback logic if no metadata
+
+Build the app the run on MacOS and Windows
+
+Create a companion web app, firestick app, or roku app that consumes the REST API and streams movies.
+
+Add ability to save playback timemarks for resuming video if paused.
+
+Add metadata from TMDB
+
+Allow customizing the metadata, and the poster for each video file
+
+Add fallback logic if no metadata
