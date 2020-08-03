@@ -89,6 +89,12 @@ function slugify(string) {
 
 ipc.on('reloadMediaDirectoryFiles', async function(event){
   var files = await getMp4FilesFromSettings();
+  if(typeof files == 'undefined'){
+    event.sender.send('cleaningFiles');
+    await cleanDataFiles();
+    event.sender.send('noFiles');
+    return;
+  }
   for(var i = 0; i < files.length; i++){
     var file = files[i];
     event.sender.send('loadingFile',file);
@@ -103,6 +109,12 @@ ipc.on('reloadMediaDirectoryFiles', async function(event){
 
 ipc.on('refreshMediaDirectoryFiles', async function(event){
   var files = await getMp4FilesFromSettings();
+  if(typeof files == 'undefined'){
+    event.sender.send('cleaningFiles');
+    await cleanDataFiles();
+    event.sender.send('noFiles');
+    return;
+  }
   for(var i = 0; i < files.length; i++){
     var file = files[i];
     if(!file.storage.is_stored){
@@ -218,7 +230,9 @@ const removeUnusedDataFiles = function(files){
   for(var i = 0; i < files.length; i++){
     var file = files[i];
     var to_delete = path.join(config.paths.data,file);
-    fs.unlinkSync(to_delete);
+    if(to_delete != path.join(config.paths.data,'.gitkeep')){
+      fs.unlinkSync(to_delete);
+    }
     if (i === files.length - 1){
       return true;
     }
@@ -232,11 +246,13 @@ ipc.on('getMedia',function(event,data){
     movies: [],
   };
   files.forEach(function(file,i,files_array){
-    const file_data = fs.readFileSync(path.join(config.paths.data,file),{encoding:'utf8', flag:'r'});
-    data.movies.push(JSON.parse(file_data));
-    if(i == files_array.length - 1){
-      event.sender.send('loadMedia', data);
-      //res.end( JSON.stringify(data));
+    if(file != '.gitkeep'){
+      const file_data = fs.readFileSync(path.join(config.paths.data,file),{encoding:'utf8', flag:'r'});
+      data.movies.push(JSON.parse(file_data));
+      if(i == files_array.length - 1){
+        event.sender.send('loadMedia', data);
+        //res.end( JSON.stringify(data));
+      }
     }
   })
 });

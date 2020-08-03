@@ -58,6 +58,10 @@ window.addEventListener('DOMContentLoaded',function(){
       ipc.send('getMedia');
     })
 
+    ipc.on('noFiles', function(event){
+      document.getElementById('movies').innerHTML = 'No movies';
+    })
+
     ipc.on('loadMedia', function(event, messages){
       let movies = '';
       for(var i in messages.movies){
