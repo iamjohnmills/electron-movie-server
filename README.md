@@ -3,6 +3,8 @@ A simple electron app that lets you pick a directory of mp4 files and serves the
 
 Built with Electron, Node, Express, and FFMPEG
 
+![Movie Server Screenshot](https://raw.githubusercontent.com/iamjohnmills/electron-movie-server/master/screenshot.png)
+
 My inspiration is PLEX, which, although great (and I still use it), appeals to a wider range of users and has many features that I don't use. My intention is to make a lightweight, fast, and simple media server, with only the features I use most.
 
 ## Installation
