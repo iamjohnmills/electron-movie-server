@@ -39,9 +39,9 @@ tags.Date
 I use express to host a companion server for the API with the routes noted below. From the settings page, you can view the current IP address easily to access it on another machine.
 
 ## Roadmap
-The app currently has limited functionality. I would like to
+The app currently has limited functionality. I would like to:
 
-Build the app the run on MacOS and Windows
+Build the app to run on MacOS and Windows
 
 Create a companion web app, firestick app, or roku app that consumes the REST API and streams movies.
 
