@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; img-src *">
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'; img-src *">
+    <title>Movie Server</title>
+    <link rel="stylesheet" type="text/css" href="app.css">
+  </head>
+  <body>
+    <div id="container-index" class="container">
+      <div class="nav">
+        <div class="logo">Movie Server</div>
+        <div class="menu">
+          <a id="refresh-media-directory-files" href="#">Refresh</a>
+          <a id="reload-media-directory-files" href="#">Reload Storage</a>
+          <a href="settings.html">Settings</a>
+        </div>
+      </div>
+      <!--
+      We are using Node.js <span id="node-version"></span>,
+      Chromium <span id="chrome-version"></span>,
+      and Electron <span id="electron-version"></span>.
+    -->
+      <div id="movies"></div>
+    </div>
+    <script src=”/socket.io/socket.io.js”></script>
+  </body>
+</html>

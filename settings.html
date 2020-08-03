@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; object-src 'self'">
+    <meta http-equiv="X-Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; object-src 'self'">
+    <title>Settings</title>
+    <link rel="stylesheet" type="text/css" href="app.css">
+  </head>
+  <body>
+    <div id="container-settings" class="container">
+      <form>
+        <div class="mb-20">
+          <div id="ip-address" class="mb-10"></div>
+          <div class="mb-10">
+            <label class="d-block mb-5 font-weight-bold">TMDB API Key</label>
+            <input id="tmdb_key" class="d-block minw-50" type="text" name="tmdb_key" value="" />
+          </div>
+          <div class="mb-10">
+            <label class="d-block mb-5 font-weight-bold">Port</label>
+            <input id="input-port" class="d-block minw-50" type="text" name="port" value="8081" />
+          </div>
+          <div class="mb-10">
+            <label class="d-block mb-5 font-weight-bold">Media Folders</label>
+            <div id="media_directories"></div>
+            <button id="choose-media-directory">Add Media Directory</button>
+            <!--
+            <input class="d-block w-100" type="file" name="folder" webkitdirectory="true" />
+            -->
+          </div>
+        </div>
+        <div>
+          <input id="submit-form" type="submit" value="Save" />
+          <a href="index.html">Go Back</a>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
