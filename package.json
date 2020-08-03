@@ -1,7 +1,7 @@
 {
-  "name": "electron-app",
+  "name": "electron-movie-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "A simple electron app that lets you pick a directory of mp4 files and serves them via an API.",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
