@@ -28,6 +28,11 @@ window.addEventListener('DOMContentLoaded',function(){
     var moment = require('moment'); // require
     var loading = false;
 
+    document.getElementById('toggle-dev-tools').addEventListener('click',function(e){
+      e.preventDefault();
+      ipc.send('toggleDevTools');
+    });
+
     document.getElementById('reload-media-directory-files').addEventListener('click',function(e){
       e.preventDefault();
       if(loading) return;
@@ -107,11 +112,12 @@ window.addEventListener('DOMContentLoaded',function(){
     ipc.on('loadSettingsData', function(event, messages){
       //console.log('Loaded settings data');
       settings_data = messages;
-      document.getElementById('ip-address').innerHTML = messages.ip_address;
+      document.getElementById('ip-address').innerHTML = 'http://' + messages.ip_address + ':' + messages.port;
       document.getElementById('input-port').value = messages.port;
+      document.getElementById('input-tmdb-key').value = messages.tmdb_key;
       let dirs = '';
       for(var i in messages.media_directories){
-        dirs += `<div class="media-directory" data-media-directory="` + messages.media_directories[i] + `">` + messages.media_directories[i] + `</div>`;
+        dirs += `<div class="media-directory">` + messages.media_directories[i] + `<span class="remove-button" data-media-directory="` + messages.media_directories[i] + `">x</span></div>`;
       }
       document.getElementById('media_directories').innerHTML = dirs;
     });
@@ -124,7 +130,7 @@ window.addEventListener('DOMContentLoaded',function(){
     });
 
     document.addEventListener('click',function(e){
-      if(e.target && e.target.className == 'media-directory'){
+      if(e.target && e.target.className == 'remove-button'){
         ipc.send('removeMediaDirectory',e.target.dataset.mediaDirectory);
       }
     });
@@ -135,6 +141,7 @@ window.addEventListener('DOMContentLoaded',function(){
 
     document.getElementById('submit-form').addEventListener('click',function(e){
       settings_data.port = document.getElementById('input-port').value;
+      settings_data.tmdb_key = document.getElementById('input-tmdb-key').value;
       ipc.send('saveSettings',settings_data);
     });
 

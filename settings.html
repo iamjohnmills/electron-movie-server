@@ -10,29 +10,32 @@
   </head>
   <body>
     <div id="container-settings" class="container">
+      <div class="back-button mb-20">
+        <a href="index.html"><span class="top-up-1 fs-18 mr-5">&lsaquo;</span>Back</a>
+      </div>
+
       <form>
         <div class="mb-20">
-          <div id="ip-address" class="mb-10"></div>
           <div class="mb-10">
-            <label class="d-block mb-5 font-weight-bold">TMDB API Key</label>
-            <input id="tmdb_key" class="d-block minw-50" type="text" name="tmdb_key" value="" />
+            <span class="font-weight-bold mr-5">Server IP:</span>
+            <span id="ip-address"></span>
           </div>
           <div class="mb-10">
-            <label class="d-block mb-5 font-weight-bold">Port</label>
-            <input id="input-port" class="d-block minw-50" type="text" name="port" value="8081" />
+            <label class="font-weight-bold mr-5">Port:</label>
+            <input id="input-port" class="" type="text" name="port" value="8081" placeholder="Port" />
+          </div>
+          <div class="mb-10">
+            <label class="font-weight-bold mr-5">TMDB API Key:</label>
+            <input id="input-tmdb-key" class="" type="text" name="tmdb-key" value="" placeholder="TMDB Key" />
           </div>
           <div class="mb-10">
             <label class="d-block mb-5 font-weight-bold">Media Folders</label>
-            <div id="media_directories"></div>
+            <div id="media_directories" class="mb-10"></div>
             <button id="choose-media-directory">Add Media Directory</button>
-            <!--
-            <input class="d-block w-100" type="file" name="folder" webkitdirectory="true" />
-            -->
           </div>
         </div>
         <div>
           <input id="submit-form" type="submit" value="Save" />
-          <a href="index.html">Go Back</a>
         </div>
       </form>
     </div>

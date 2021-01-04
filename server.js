@@ -20,6 +20,15 @@ const getSettings = function(){
   return JSON.parse(data);
 }
 
+function isJSON(str) {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
+}
+
 let settings = getSettings();
 //var port = settings.port;
 //var ip_address = ip.address();
@@ -36,17 +45,26 @@ app.get('/settings', function (req,res) {
 })
 
 app.get('/movies', function (req, res) {
+  try {
    var files = fs.readdirSync(config.paths.data);
    var data = {
      movies: [],
    };
    files.forEach(function(file,i,files_array){
      const file_data = fs.readFileSync(path.join(config.paths.data,file),{encoding:'utf8', flag:'r'});
+      if(!isJSON(file_data)) return;
       data.movies.push(JSON.parse(file_data));
       if(i == files_array.length - 1){
         res.end( JSON.stringify(data));
       }
-   })
+   });
+  } catch (e) {
+    var msg = {
+      error: 'Error',
+      message: e.message,
+    }
+    res.end(JSON.stringify(msg));
+  }
 })
 
 app.get('/movies/:slug', function (req, res) {
@@ -103,7 +121,7 @@ app.get('/movies/:slug/stream', function(req, res) {
 });
 
 var server = http.listen(settings.port, function(){
-   var host = server.address().address
-   var port = server.address().port
+   var host = server.address().address;
+   var port = server.address().port;
    console.log("Example app listening at http://%s:%s", host, port)
 })

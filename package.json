@@ -10,16 +10,17 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^9.1.0"
+    "electron": "^9.4.0"
   },
   "dependencies": {
+    "chokidar": "^3.4.3",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "ffmpeg-static-electron": "^2.0.1",
     "ffprobe-static-electron": "^2.0.0",
     "fluent-ffmpeg": "^2.1.2",
     "ip": "^1.1.5",
-    "lodash": "^4.17.19",
-    "moment": "^2.27.0"
+    "lodash": "^4.17.20",
+    "moment": "^2.29.1"
   }
 }

@@ -8,7 +8,7 @@ Built with Electron, Node, Express, and FFMPEG
 My inspiration is PLEX, which, although great (and I still use it), appeals to a wider range of users and has many features that I don't use. My intention is to make a lightweight, fast, and simple media server, with only the features I use most.
 
 ## Installation
-Copy the repository locally and run npm install in the directory.
+Copy the repository locally and run npm install in the directory. Then run npm start which will open the app.
 
 ## Basic Usage
 From settings, specify a port, and media directories (click on a set directory to remove it).

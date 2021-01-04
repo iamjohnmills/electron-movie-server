@@ -5,18 +5,36 @@ const path = require('path');
 const {fork} = require('child_process');
 const server = fork(`${__dirname}/server.js`);
 const ip = require('ip');
+//const chokidar = require('chokidar'); // for watching files added or changed
 const ipc = electron.ipcMain;
 var _ = require('lodash');
 
 const config = {
   paths: {
-    data: path.join(__dirname,'data'),
+    data: path.join(__dirname,'data/'),
     settings: path.join(__dirname,'settings.json'),
   },
 }
 
+const initializeDataFiles = function(){
+  // settings file
+  if (!fs.existsSync(config.paths.settings)) {
+    fs.writeFileSync(config.paths.settings, JSON.stringify({
+      port: 8081,
+      tmdb_key: '',
+      media_directories: [],
+    }));
+  }
+  // data directory
+  fs.mkdir(config.paths.data, { recursive: true }, (err) => {
+    if (err) throw err; // fix this
+  });
+}
+
+
+let mainWindow;
 function createWindow(){
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 700,
     height: 500,
     backgroundColor: '#ffffff',
@@ -30,14 +48,14 @@ function createWindow(){
   });
   mainWindow.setResizable(false);
   mainWindow.loadFile('index.html');
-  mainWindow.webContents.openDevTools();
 }
 
-app.whenReady().then(function(){
-  createWindow();
-  app.on('activate',function(){
+app.whenReady().then(async function(){
+  await initializeDataFiles();
+  await createWindow();
+  app.on('activate',async function(){
     if (BrowserWindow.getAllWindows().length === 0){
-      createWindow();
+      await createWindow();
     }
   });
 });
@@ -48,25 +66,19 @@ app.on('window-all-closed',function(){
   }
 });
 
-ipc.on('chooseMediaDirectory',function(event,args){
-  const media_directory = electron.dialog.showOpenDialog({
+ipc.on('chooseMediaDirectory', async function(event,args){
+  const media_directory = await electron.dialog.showOpenDialog(mainWindow,{
     properties: ['openDirectory'],
-  }).then(function(data){
-    event.sender.send('mediaDirectorySelected', data.filePaths[0]);
-  })
+  });
+  if(!media_directory.filePaths.length) return;
+  event.sender.send('mediaDirectorySelected', media_directory.filePaths[0]);
+
 });
 
-const settings_path = app.getAppPath() + '/settings.json';
 
-if (!fs.existsSync(settings_path)) {
-  fs.writeFileSync(settings_path, JSON.stringify({
-    port: 8081,
-    media_directories: [],
-  }));
-}
 
 const getSettings = function(){
-  let data = fs.readFileSync(settings_path, 'utf8');
+  let data = fs.readFileSync(config.paths.settings, 'utf8');
   if (!data) return {};
   var json = JSON.parse(data);
   json.ip_address = ip.address();
@@ -257,12 +269,16 @@ ipc.on('getMedia',function(event,data){
   })
 });
 
+ipc.on('toggleDevTools',function(event){
+  mainWindow.webContents.openDevTools({mode:'undocked'});
+});
+
 ipc.on('serverListening',function(event){
   console.log('listening')
 });
 
 ipc.on('saveSettings',function(event,data){
-  fs.writeFileSync(settings_path, JSON.stringify(data));
+  fs.writeFileSync(config.paths.settings, JSON.stringify(data));
   event.sender.send('loadSettingsData', data);
 });
 
