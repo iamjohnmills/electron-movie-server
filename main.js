@@ -6,6 +6,7 @@ const {fork} = require('child_process');
 const server = fork(`${__dirname}/server.js`);
 const ip = require('ip');
 //const chokidar = require('chokidar'); // for watching files added or changed
+// var bonjour = require('bonjour')();
 const ipc = electron.ipcMain;
 var _ = require('lodash');
 
